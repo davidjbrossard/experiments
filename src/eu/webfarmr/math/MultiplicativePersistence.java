@@ -18,7 +18,7 @@ public class MultiplicativePersistence {
 		for (int i = 0; i < digits.length; i++) {
 			product = product * Character.getNumericValue(digits[i]);
 		}
-		System.out.println(product);
+//		System.out.println(product);
 		if (product>9) {
 			return doProduct(product.toString().toCharArray(),++iterationCount);
 		} else {
@@ -27,9 +27,22 @@ public class MultiplicativePersistence {
 	}
 	
 	public static void main(String[] args) {
-		long seed = 3472;
-		MultiplicativePersistence mp = new MultiplicativePersistence(seed);
-		System.out.println("Iteration count: " + mp.getIterations());
+		long startTime = System.nanoTime();
+		int max = 0;
+		Long theSeed = 11L;
+		Long seed = theSeed;
+		while(true) {
+			MultiplicativePersistence mp = new MultiplicativePersistence(seed);
+			int iterations = mp.getIterations();
+			if (iterations>max) {
+				theSeed = seed;
+				long now = System.nanoTime();
+				long elapsedTime = Math.abs(now - startTime)/1000/1000; // ms
+				System.out.println("Num: " + theSeed+ " It.: "+iterations + " (" + elapsedTime+ " ms)");
+				max = iterations;
+			}
+			seed++;
+		}
 
 	}
 
