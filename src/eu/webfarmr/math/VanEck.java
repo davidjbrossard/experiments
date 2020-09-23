@@ -9,7 +9,7 @@ import java.util.List;
  * Start with a(1)=0.
  * @see https://oeis.org/A181391
  * @see https://www.youtube.com/watch?v=etMJxB-igrc
- * @author djob
+ * @author djob (@davidjbrossard)
  *
  */
 public class VanEck {
@@ -19,22 +19,26 @@ public class VanEck {
 			7, 19, 0, 5, 37, 0, 3, 8, 8, 1 };
 
 	public static void main(String[] args) {
-		List<Integer> series = new ArrayList<Integer>();
-		int currentNumber = 0;
-		series.add(currentNumber); // we initiate the series with 0
-		for (int i = 0; i < 100; i++) {
-			boolean knownNumber = series.contains(currentNumber);
-			// Determine the position before adding the number to the list
-			int position = series.lastIndexOf(currentNumber);
-			series.add(currentNumber);
-			currentNumber = knownNumber ? series.size() - position - 1 : 0;
-		}
+		List<Integer> series = generateSeries(200);
 		for (int i = 0; i < series.size(); i++) {
 			System.out.println(i + ": " + series.get(i));
 		}
 		System.out.println(VanEck.isVanEck(series));
 	}
 
+	public static List<Integer> generateSeries(int size){
+		List<Integer> series = new ArrayList<Integer>();
+		int currentNumber = 0;
+		series.add(currentNumber); // we initiate the series with 0
+		for (int i = 0; i < size; i++) {
+			boolean knownNumber = series.contains(currentNumber);
+			// Determine the position before adding the number to the list
+			int position = series.lastIndexOf(currentNumber);
+			series.add(currentNumber);
+			currentNumber = knownNumber ? series.size() - position - 1 : 0;
+		}
+		return series;
+	}
 	public static boolean isVanEck(List<Integer> series) {
 		int i = 0;
 		while (i < A181391.length && i < series.size()) {
@@ -46,6 +50,3 @@ public class VanEck {
 		return true;
 	}
 }
-
-// 0, 0, 1, 0, 2, 0, 2, 2, 1, 6, 0, 5, 0, 2, 6, 5, 4, 0, 5
-// See https://en.wikipedia.org/wiki/Van_Eck%27s_sequence
